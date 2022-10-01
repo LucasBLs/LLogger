@@ -8,8 +8,8 @@ namespace Lemos.Logger
 {
     public class LLConnection
     {
-        private static readonly string ConnectionString = default!;
-        private static readonly string CollectionName = default!;
+        private static string ConnectionString = default!;
+        private static string CollectionName = default!;
         private static readonly string DataBaseName = "LLogger";
 
         /// <summary>
@@ -24,6 +24,8 @@ namespace Lemos.Logger
                 if (string.IsNullOrEmpty(connectionString) || string.IsNullOrEmpty(collectionName))
                     throw new ArgumentNullException("Invalid parameters for creating the database.");
 
+                ConnectionString = connectionString;
+                CollectionName = collectionName;
                 var database = new MongoClient(ConnectionString).GetDatabase(DataBaseName);
                 var options = new ListCollectionNamesOptions
                 {

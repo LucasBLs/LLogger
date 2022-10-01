@@ -9,7 +9,7 @@ namespace Lemos.Logger
 {
     public static class LLogger
     {
-        public async static Task SaveLogs(LLoggerModel log)
+        public async static Task SaveLogsAsync(LLoggerModel log)
         {
             try
             {
@@ -23,7 +23,7 @@ namespace Lemos.Logger
             }
         }
 
-        public async static Task<List<LLoggerModel>> SearchLogs(DateTime startDate, DateTime endDate, int page = 1, int pageSize = 10)
+        public async static Task<List<LLoggerModel>> SearchLogsAsync(DateTime startDate, DateTime endDate, int page = 1, int pageSize = 10)
         {
             try
             {
@@ -45,7 +45,7 @@ namespace Lemos.Logger
             llogger.LogFunction("JobTeste01", "Dev", "o123456", "Job teste");
             llogger.LogContent("Criando item no banco", new Exception("Teste"));
             llogger.LogContent("Salvando dados", new SocketException());
-            await SaveLogs(llogger);
+            await SaveLogsAsync(llogger);
         }
     }
 }
