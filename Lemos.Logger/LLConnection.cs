@@ -1,6 +1,5 @@
 using System;
 using System.Threading.Tasks;
-using Lemos.Logger.Model;
 using MongoDB.Bson;
 using MongoDB.Driver;
 
@@ -42,12 +41,12 @@ namespace Lemos.Logger
             }
 
         }
-        public async static Task<IMongoCollection<LLoggerModel>> GetCollectionAsync()
+        public async static Task<IMongoCollection<LLogger>> GetCollectionAsync()
         {
             try
             {
                 var database = new MongoClient(ConnectionString).GetDatabase(DataBaseName);
-                return await Task.FromResult(database.GetCollection<LLoggerModel>(CollectionName));
+                return await Task.FromResult(database.GetCollection<LLogger>(CollectionName));
             }
             catch (Exception)
             {
