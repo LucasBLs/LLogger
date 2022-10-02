@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using MongoDB.Bson.Serialization;
-using MongoDB.Bson;
 using System.Threading.Tasks;
+using MongoDB.Bson;
+using MongoDB.Bson.Serialization;
 using MongoDB.Bson.Serialization.Attributes;
 using MongoDB.Bson.Serialization.Serializers;
 using MongoDB.Driver;
@@ -15,37 +15,53 @@ namespace Lemos.Logger
         public LLogger(string? projectName)
         {
             ProjectName = projectName;
-            Functions = new List<Function>();
+            Jobs = new List<Job>();
         }
 
         [BsonId]
         public Guid? Id { get; set; }
         public string? ProjectName { get; set; }
         public DateTime? Date { get; set; } = DateTime.Now;
-        public List<Function> Functions { get; set; }
+        public List<Job> Jobs { get; set; }
 
         public void LogFunction(string jobName, string environment, string uniqueId, string description)
         {
-            var _project = new Function
+            var _project = new Job
             {
                 JobName = jobName,
                 Environment = environment,
                 UniqueId = uniqueId,
                 Description = description
             };
-            Functions?.Add(_project);
+            Jobs?.Add(_project);
         }
 
-        public void LogContent(string functionName, object content)
+        public void LogContent(string message, object content)
         {
-            if (Functions.Any())
+            if (Jobs.Any())
             {
-                foreach (var item in Functions)
+                foreach (var item in Jobs)
                 {
                     item.Logs?.Add(new Log(
-                        functionName,
+                        message,
                         content
                     ));
+                    item.Success = true;
+                }
+            }
+        }
+
+        public void LogError(Exception exception, string? message = null)
+        {
+            if (Jobs.Any())
+            {
+                foreach (var item in Jobs)
+                {
+                    item.Logs?.Add(new Log(
+                        string.IsNullOrEmpty(message) is true ? exception.TargetSite.ToString() : message,
+                        exception.ToString()
+                    ));
+                    item.Success = false;
                 }
             }
         }
@@ -65,13 +81,29 @@ namespace Lemos.Logger
             }
         }
 
-        public async static Task<List<LLogger>> SearchLogsAsync(DateTime startDate, DateTime endDate, int page = 1, int pageSize = 10)
+        public async static Task<List<LLogger>> SearchLogsAsync(DateTime startDate, DateTime endDate, int skip = 0, int take = 25, string? projectName = null, string? job = null, string? uniqueId = null, string? message = null, bool? success = null)
         {
             try
             {
                 var collection = await LLConnection.GetCollectionAsync();
-                var filter = Builders<LLogger>.Filter.Where(x => x.Date >= startDate && x.Date <= endDate);
-                return await collection.Find(filter).Skip((page - 1) * pageSize).Limit(pageSize).SortByDescending(a => a.Date).ToListAsync();
+                var query = collection.AsQueryable().Where(x => x.Date >= startDate && x.Date <= endDate);
+
+                if (!string.IsNullOrEmpty(projectName))
+                    query = query.Where(x => x.ProjectName == projectName);
+
+                if (!string.IsNullOrEmpty(job))
+                    query = query.Where(x => x.Jobs.Any(i => i.JobName == job));
+
+                if (success != null)
+                    query = query.Where(x => x.Jobs.Any(i => i.Success == success));
+
+                if (!string.IsNullOrEmpty(uniqueId))
+                    query = query.Where(x => x.Jobs.Any(i => i.UniqueId == uniqueId));
+
+                if (!string.IsNullOrEmpty(uniqueId))
+                    query = query.Where(x => x.Jobs.Any(i => i.Logs.Any(c => c.Message == message)));
+
+                return query.Skip(skip).Take(take).OrderByDescending(x => x.Date).ToList();
             }
             catch (Exception)
             {
@@ -80,27 +112,27 @@ namespace Lemos.Logger
         }
     }
 
-    public class Function
+    public class Job
     {
         public string? JobName { get; set; }
         public string? Environment { get; set; }
         public string? UniqueId { get; set; }
         public string? Description { get; set; }
         public DateTime? CreatedAt { get; set; } = DateTime.Now;
-        public string? Result { get; set; }
+        public bool Success { get; set; }
         public List<Log>? Logs { get; set; } = new List<Log>();
     }
 
     public class Log
     {
-        public Log(string? functionName, object? content)
+        public Log(string? message, object? content)
         {
-            FunctionName = functionName;
+            Message = message;
             Content = content;
             CreatedAt = DateTime.Now;
         }
 
-        public string? FunctionName { get; set; }
+        public string? Message { get; set; }
         public object? Content { get; set; }
         public DateTime? CreatedAt { get; set; }
     }
