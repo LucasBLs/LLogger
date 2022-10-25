@@ -15,34 +15,34 @@ namespace Lemos.Logger
         public LLogger(string? projectName)
         {
             ProjectName = projectName;
-            Jobs = new List<Job>();
+            Logs = new List<Job>();
         }
 
         [BsonId]
-        public Guid? Id { get; set; }
-        public string? ProjectName { get; set; }
+        public Guid? Id { get; set; } = default!;
+        public string? ProjectName { get; set; } = default!;
         public DateTime? Date { get; set; } = DateTime.Now;
-        public List<Job> Jobs { get; set; }
+        public List<Job> Logs { get; set; } = default!;
 
         public void LogFunction(string jobName, string environment, string uniqueId, string description)
         {
             var _project = new Job
             {
-                JobName = jobName,
+                LogName = jobName,
                 Environment = environment,
                 UniqueId = uniqueId,
                 Description = description
             };
-            Jobs?.Add(_project);
+            Logs?.Add(_project);
         }
 
         public void LogContent(string message, object content)
         {
-            if (Jobs.Any())
+            if (Logs.Any())
             {
-                foreach (var item in Jobs)
+                foreach (var item in Logs)
                 {
-                    item.Logs?.Add(new Log(
+                    item.LogsContent?.Add(new LogContent(
                         message,
                         content
                     ));
@@ -53,11 +53,11 @@ namespace Lemos.Logger
 
         public void LogError(Exception exception, string? message = null)
         {
-            if (Jobs.Any())
+            if (Logs.Any())
             {
-                foreach (var item in Jobs)
+                foreach (var item in Logs)
                 {
-                    item.Logs?.Add(new Log(
+                    item.LogsContent?.Add(new LogContent(
                         string.IsNullOrEmpty(message) is true ? exception.TargetSite.ToString() : message,
                         exception.ToString()
                     ));
@@ -92,16 +92,16 @@ namespace Lemos.Logger
                     query = query.Where(x => x.ProjectName == projectName);
 
                 if (!string.IsNullOrEmpty(job))
-                    query = query.Where(x => x.Jobs.Any(i => i.JobName == job));
+                    query = query.Where(x => x.Logs.Any(i => i.LogName == job));
 
                 if (success != null)
-                    query = query.Where(x => x.Jobs.Any(i => i.Success == success));
+                    query = query.Where(x => x.Logs.Any(i => i.Success == success));
 
                 if (!string.IsNullOrEmpty(uniqueId))
-                    query = query.Where(x => x.Jobs.Any(i => i.UniqueId == uniqueId));
+                    query = query.Where(x => x.Logs.Any(i => i.UniqueId == uniqueId));
 
                 if (!string.IsNullOrEmpty(uniqueId))
-                    query = query.Where(x => x.Jobs.Any(i => i.Logs.Any(c => c.Message == message)));
+                    query = query.Where(x => x.Logs.Any(i => i.LogsContent.Any(c => c.Message == message)));
 
                 return query.Skip(skip).Take(take).OrderByDescending(x => x.Date).ToList();
             }
@@ -114,26 +114,26 @@ namespace Lemos.Logger
 
     public class Job
     {
-        public string? JobName { get; set; }
-        public string? Environment { get; set; }
-        public string? UniqueId { get; set; }
-        public string? Description { get; set; }
+        public string? LogName { get; set; } = default!;
+        public string? Environment { get; set; } = default!;
+        public string? UniqueId { get; set; } = default!;
+        public string? Description { get; set; } = default!;
         public DateTime? CreatedAt { get; set; } = DateTime.Now;
-        public bool Success { get; set; }
-        public List<Log>? Logs { get; set; } = new List<Log>();
+        public bool Success { get; set; } = default!;
+        public List<LogContent>? LogsContent { get; set; } = new List<LogContent>();
     }
 
-    public class Log
+    public class LogContent
     {
-        public Log(string? message, object? content)
+        public LogContent(string? message, object? content)
         {
             Message = message;
             Content = content;
             CreatedAt = DateTime.Now;
         }
 
-        public string? Message { get; set; }
-        public object? Content { get; set; }
-        public DateTime? CreatedAt { get; set; }
+        public string? Message { get; set; } = default!;
+        public object? Content { get; set; } = default!;
+        public DateTime? CreatedAt { get; set; } = default!;
     }
 }

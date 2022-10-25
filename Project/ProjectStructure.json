@@ -1,0 +1,27 @@
+{
+  "Id": "Guid",
+  "ProjectName": "",
+  "Date": "",
+  "Logs": [
+    {
+      "LogName": "Example name",
+      "Environment": "Dev",
+      "UniqueId": "",
+      "Description": "",
+      "CreatedAt": "",
+      "Success": "",
+      "LogsContent": [
+        {
+          "Message": "GetItem",
+          "Content": "{teste}",
+          "CreatedAt": ""
+        },
+        {
+          "Message": "Puttem",
+          "Content": "{teste}",
+          "CreatedAt": ""
+        }
+      ]
+    }
+  ]
+}
