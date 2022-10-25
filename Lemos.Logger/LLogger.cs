@@ -14,27 +14,26 @@ namespace Lemos.Logger
     {
         public LLogger(string? projectName)
         {
-            if(string.IsNullOrEmpty(projectName))
+            if (string.IsNullOrEmpty(projectName))
                 throw new ArgumentNullException("Invalid parameters for add the project name.");
 
             ProjectName = projectName;
-            Logs = new List<Job>();
         }
 
         [BsonId]
         public Guid? Id { get; set; } = default!;
         public string? ProjectName { get; set; } = default!;
         public DateTime? Date { get; set; } = DateTime.Now;
-        public List<Job> Logs { get; set; } = default!;
+        public List<Job> Logs { get; set; } = new List<Job>();
 
         public void LogFunction(string jobName, string environment, string uniqueId, string description)
         {
-            if (string.IsNullOrEmpty(jobName) || 
+            if (string.IsNullOrEmpty(jobName) ||
                 string.IsNullOrEmpty(environment) ||
                 string.IsNullOrEmpty(uniqueId) ||
                 string.IsNullOrEmpty(description))
                 throw new ArgumentNullException("Invalid parameters for call the LogFunction.");
-                
+
             var _project = new Job
             {
                 LogName = jobName,
