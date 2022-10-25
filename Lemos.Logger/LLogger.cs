@@ -34,14 +34,14 @@ namespace Lemos.Logger
                 string.IsNullOrEmpty(description))
                 throw new ArgumentNullException("Invalid parameters for call the LogFunction.");
 
-            var _project = new Log
+            var project = new Log
             {
                 LogName = jobName,
                 Environment = environment,
                 UniqueId = uniqueId,
                 Description = description
             };
-            Logs?.Add(_project);
+            Logs?.Add(project);
         }
 
         public void LogContent(string message, object content)
@@ -61,14 +61,12 @@ namespace Lemos.Logger
         {
             if (Logs.Any())
             {
-                foreach (var item in Logs)
-                {
-                    item.LogsContent?.Add(new LogContent(
-                        string.IsNullOrEmpty(message) is true ? exception.TargetSite.ToString() : $"{message}\n{exception.TargetSite}",
-                        exception.ToString()
-                    ));
-                    item.Success = false;
-                }
+                var item = Logs.LastOrDefault();
+                item.LogsContent?.Add(new LogContent(
+                    string.IsNullOrEmpty(message) is true ? exception.TargetSite.ToString() : $"{message}\n{exception.TargetSite}",
+                    exception.ToString()
+                ));
+                item.Success = false;
             }
         }
 
