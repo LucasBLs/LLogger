@@ -66,7 +66,7 @@ namespace Lemos.Logger
                 foreach (var item in Logs)
                 {
                     item.LogsContent?.Add(new LogContent(
-                        string.IsNullOrEmpty(message) is true ? exception.TargetSite.ToString() : message,
+                        string.IsNullOrEmpty(message) is true ? exception.TargetSite.ToString() : $"{message}\n{exception.TargetSite}",
                         exception.ToString()
                     ));
                     item.Success = false;
