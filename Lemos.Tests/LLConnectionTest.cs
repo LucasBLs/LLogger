@@ -6,16 +6,16 @@ namespace Lemos.Tests;
 public class LLConnectionTest
 {
     [TestMethod]
-    public async Task ConfigureDatabasePassNullInConnectionString()
+    public async Task ConfigureDatabasePassStringEmptyInConnectionString()
     {
         await Assert.ThrowsExceptionAsync<ArgumentNullException>(
-            async () => await LLConnection.ConfigureDatabaseAsync("","LLogger"));
+            async () => await LLConnection.ConfigureDatabaseAsync("", "LLogger"));
     }
 
     [TestMethod]
-    public async Task ConfigureDatabasePassNullInCollectionName()
+    public async Task ConfigureDatabasePassStringEmptyInCollectionName()
     {
         await Assert.ThrowsExceptionAsync<ArgumentNullException>(
-            async () => await LLConnection.ConfigureDatabaseAsync("LLogger",""));
+            async () => await LLConnection.ConfigureDatabaseAsync("LLogger", ""));
     }
 }

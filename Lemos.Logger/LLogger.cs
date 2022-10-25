@@ -14,6 +14,9 @@ namespace Lemos.Logger
     {
         public LLogger(string? projectName)
         {
+            if(string.IsNullOrEmpty(projectName))
+                throw new ArgumentNullException("Invalid parameters for add the project name.");
+
             ProjectName = projectName;
             Logs = new List<Job>();
         }
@@ -26,6 +29,12 @@ namespace Lemos.Logger
 
         public void LogFunction(string jobName, string environment, string uniqueId, string description)
         {
+            if (string.IsNullOrEmpty(jobName) || 
+                string.IsNullOrEmpty(environment) ||
+                string.IsNullOrEmpty(uniqueId) ||
+                string.IsNullOrEmpty(description))
+                throw new ArgumentNullException("Invalid parameters for call the LogFunction.");
+                
             var _project = new Job
             {
                 LogName = jobName,
