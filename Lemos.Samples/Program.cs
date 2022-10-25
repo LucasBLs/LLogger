@@ -12,7 +12,12 @@ try
     logger.LogFunction("Test", "Dev", "d80f98c6-e126-46da-85b9-9273ce92a098", "Write in console text");
     var text = "Hello, World!";
     logger.LogContent("Writing text", text);
-    logger.LogContent("Writing text2", text);
+    logger.LogContent("Writing text", text);
+
+    logger.LogFunction("Test2", "Dev", "d80f98c6-e126-46da-85b9-927231392a098", "Write in console text");
+    var text2 = "Hello, World!2";
+    logger.LogContent("Writing text2", text2);
+    logger.LogContent("Writing text2", text2);
 }
 catch (Exception ex)
 {

@@ -48,14 +48,12 @@ namespace Lemos.Logger
         {
             if (Logs.Any())
             {
-                foreach (var item in Logs)
-                {
-                    item.LogsContent?.Add(new LogContent(
-                        message,
-                        content
-                    ));
-                    item.Success = true;
-                }
+                var item = Logs.LastOrDefault();
+                item.LogsContent?.Add(new LogContent(
+                    message,
+                    content
+                ));
+                item.Success = true;
             }
         }
 
