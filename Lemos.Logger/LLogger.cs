@@ -24,7 +24,7 @@ namespace Lemos.Logger
         public Guid? Id { get; set; } = default!;
         public string? ProjectName { get; set; } = default!;
         public DateTime? Date { get; set; } = DateTime.Now;
-        public List<Job> Logs { get; set; } = new List<Job>();
+        public List<Log> Logs { get; set; } = new List<Log>();
 
         public void LogFunction(string jobName, string environment, string uniqueId, string description)
         {
@@ -34,7 +34,7 @@ namespace Lemos.Logger
                 string.IsNullOrEmpty(description))
                 throw new ArgumentNullException("Invalid parameters for call the LogFunction.");
 
-            var _project = new Job
+            var _project = new Log
             {
                 LogName = jobName,
                 Environment = environment,
@@ -120,7 +120,7 @@ namespace Lemos.Logger
         }
     }
 
-    public class Job
+    public class Log
     {
         public string? LogName { get; set; } = default!;
         public string? Environment { get; set; } = default!;

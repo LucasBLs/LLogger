@@ -13,8 +13,6 @@ try
     var text = "Hello, World!";
     logger.LogContent("Writing text", text);
     logger.LogContent("Writing text2", text);
-    Convert.ToDateTime(text);
-    Console.WriteLine(text);
 }
 catch (Exception ex)
 {

@@ -1,0 +1,29 @@
+[
+  {
+    "Id": "14c997b5-1002-445f-8919-269c3cc346b5",
+    "ProjectName": "LLoger",
+    "Date": "2022-10-25T19:15:05.176Z",
+    "Logs": [
+      {
+        "LogName": "Test",
+        "Environment": "Dev",
+        "UniqueId": "d80f98c6-e126-46da-85b9-9273ce92a098",
+        "Description": "Write in console text",
+        "CreatedAt": "2022-10-25T19:15:05.178Z",
+        "Success": true,
+        "LogsContent": [
+          {
+            "Message": "Writing text",
+            "Content": "Hello, World!",
+            "CreatedAt": "2022-10-25T19:15:05.179Z"
+          },
+          {
+            "Message": "Writing text2",
+            "Content": "Hello, World!",
+            "CreatedAt": "2022-10-25T19:15:05.179Z"
+          }
+        ]
+      }
+    ]
+  }
+]
