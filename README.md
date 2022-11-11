@@ -1,6 +1,6 @@
 # LLogger
 
-LLogger is a package for creating step-by-step logs in MongoDB.
+LemosLogger is a package for creating step-by-step logs in MongoDB.
 
 | Package |  Version | Downloads |
 | ------- | ----- | ----- |
