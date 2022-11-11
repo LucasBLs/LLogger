@@ -26,14 +26,13 @@ Install-Package LemosLogger
 dotnet add package LemosLogger
 ```
 
-## How to use
-```csharp
+```
 #region  ConfigureDatabase
 await LLConnection.ConfigureDatabaseAsync("mongodb://localhost:27017", "Sample");
 #endregion
 
 #region Logging
-var logger = new LLogger("LLogger");
+var logger = new LLogger("LLoger");
 try
 {
     logger.LogFunction("Test", "Dev", "d80f98c6-e126-46da-85b9-9273ce92a098", "Write in console text");
@@ -41,7 +40,7 @@ try
     logger.LogContent("Writing text", text);
     logger.LogContent("Writing text", text);
 
-    logger.LogFunction("Test2", "Dev", "d80f98c6-e126-46da-85b9-927231392a098", "Write in console text2");
+    logger.LogFunction("Test2", "Dev", "d80f97c6-e126-46da-85b9-927231392a098", "Write in console text2");
     var text2 = "Hello, World2!";
     logger.LogContent("Writing text2", text2);
     logger.LogContent("Writing text2", text2);
@@ -60,58 +59,4 @@ finally
 #region SearchLogs
 var logs = await LLogger.SearchLogsAsync(DateTime.Now.AddHours(-20), DateTime.Now, projectName: "LLoger");
 #endregion
-```
-
-## Log result
-
-```json
-[
-  {
-    "Id": "e1ef00a3-dcef-46cc-a35f-79b08caa588c",
-    "ProjectName": "LLogger",
-    "Date": "2022-10-25T20:29:30.669Z",
-    "Logs": [
-      {
-        "LogName": "Test",
-        "Environment": "Dev",
-        "UniqueId": "d80f98c6-e126-46da-85b9-9273ce92a098",
-        "Description": "Write in console text",
-        "CreatedAt": "2022-10-25T20:29:30.671Z",
-        "Success": true,
-        "LogsContent": [
-          {
-            "Message": "Writing text",
-            "Content": "Hello, World!",
-            "CreatedAt": "2022-10-25T20:29:30.671Z"
-          },
-          {
-            "Message": "Writing text2",
-            "Content": "Hello, World!",
-            "CreatedAt": "2022-10-25T20:29:30.671Z"
-          }
-        ]
-      },
-      {
-        "LogName": "Test2",
-        "Environment": "Dev",
-        "UniqueId": "d80f98c6-e126-46da-85b9-927231392a098",
-        "Description": "Write in console text",
-        "CreatedAt": "2022-10-25T20:29:30.671Z",
-        "Success": true,
-        "LogsContent": [
-          {
-            "Message": "Writing text",
-            "Content": "Hello, World!",
-            "CreatedAt": "2022-10-25T20:29:30.671Z"
-          },
-          {
-            "Message": "Writing text2",
-            "Content": "Hello, World!",
-            "CreatedAt": "2022-10-25T20:29:30.671Z"
-          }
-        ]
-      }
-    ]
-  }
-]
 ```
