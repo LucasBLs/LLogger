@@ -33,7 +33,7 @@ await LLConnection.ConfigureDatabaseAsync("mongodb://localhost:27017", "Sample")
 #endregion
 
 #region Logging
-var logger = new LLogger("LLoger");
+var logger = new LLogger("LLogger");
 try
 {
     logger.LogFunction("Test", "Dev", "d80f98c6-e126-46da-85b9-9273ce92a098", "Write in console text");
@@ -41,7 +41,7 @@ try
     logger.LogContent("Writing text", text);
     logger.LogContent("Writing text", text);
 
-    logger.LogFunction("Test2", "Dev", "d80f97c6-e126-46da-85b9-927231392a098", "Write in console text2");
+    logger.LogFunction("Test2", "Dev", "d80f98c6-e126-46da-85b9-927231392a098", "Write in console text2");
     var text2 = "Hello, World2!";
     logger.LogContent("Writing text2", text2);
     logger.LogContent("Writing text2", text2);
@@ -62,7 +62,7 @@ var logs = await LLogger.SearchLogsAsync(DateTime.Now.AddHours(-20), DateTime.No
 #endregion
 ```
 
-## Result
+## Log result
 
 ```json
 [
