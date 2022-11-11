@@ -12,6 +12,9 @@ namespace Lemos.Logger
 {
     public class LLogger
     {
+        /// <summary>
+        /// <param name="projectName">Atribuir um nome para o projeto</param>
+        /// </summary>     
         public LLogger(string? projectName)
         {
             if (string.IsNullOrEmpty(projectName))
@@ -26,9 +29,15 @@ namespace Lemos.Logger
         public DateTime? Date { get; set; } = DateTime.Now;
         public List<Log> Logs { get; set; } = new List<Log>();
 
-        public void LogFunction(string jobName, string environment, string uniqueId, string description)
+        /// <summary>
+        /// <para name="logName">Atribuir um titulo para o log</para>
+        /// <para name="environment">Tipo de ambiente, se é homologação ou produção</para>
+        /// <para name="uniqueId">Chave única do log</para>
+        /// <para name="description">Descrição do log</para>
+        /// </summary>  
+        public void LogFunction(string logName, string environment, string uniqueId, string description)
         {
-            if (string.IsNullOrEmpty(jobName) ||
+            if (string.IsNullOrEmpty(logName) ||
                 string.IsNullOrEmpty(environment) ||
                 string.IsNullOrEmpty(uniqueId) ||
                 string.IsNullOrEmpty(description))
@@ -36,7 +45,7 @@ namespace Lemos.Logger
 
             var project = new Log
             {
-                LogName = jobName,
+                LogName = logName,
                 Environment = environment,
                 UniqueId = uniqueId,
                 Description = description
@@ -44,6 +53,10 @@ namespace Lemos.Logger
             Logs?.Add(project);
         }
 
+        /// <summary>
+        /// <para name="message">Atribuir uma mensagem para o log</para>
+        /// <para name="content">Atribuir o conteúdo do log</para>
+        /// </summary>  
         public void LogContent(string message, object content)
         {
             if (Logs.Any())
@@ -57,6 +70,10 @@ namespace Lemos.Logger
             }
         }
 
+        /// <summary>
+        /// <para name="exception">Atribuir um exception para o log</para>
+        /// <para name="message">Atribuir uma mensagem para o log</para>
+        /// </summary>  
         public void LogError(Exception exception, string? message = null)
         {
             if (Logs.Any())
@@ -70,6 +87,10 @@ namespace Lemos.Logger
             }
         }
 
+        /// <summary>
+        /// Salvar conteúdo do log no banco
+        /// <para name="log">Adicionar modelo do log</para>
+        /// </summary>  
         public async static Task SaveLogsAsync(LLogger log)
         {
             try
@@ -85,7 +106,10 @@ namespace Lemos.Logger
             }
         }
 
-        public async static Task<List<LLogger>> SearchLogsAsync(DateTime startDate, DateTime endDate, int skip = 0, int take = 25, string? projectName = null, string? job = null, string? uniqueId = null, string? message = null, bool? success = null)
+        /// <summary>
+        /// Consultar log no banco
+        /// </summary>  
+        public async static Task<List<LLogger>> SearchLogsAsync(DateTime startDate, DateTime endDate, int skip = 0, int take = 25, string? projectName = null, string? logName = null, string? uniqueId = null, string? message = null, bool? success = null)
         {
             try
             {
@@ -95,8 +119,8 @@ namespace Lemos.Logger
                 if (!string.IsNullOrEmpty(projectName))
                     query = query.Where(x => x.ProjectName == projectName);
 
-                if (!string.IsNullOrEmpty(job))
-                    query = query.Where(x => x.Logs.Any(i => i.LogName == job));
+                if (!string.IsNullOrEmpty(logName))
+                    query = query.Where(x => x.Logs.Any(i => i.LogName == logName));
 
                 if (success != null)
                     query = query.Where(x => x.Logs.Any(i => i.Success == success));
