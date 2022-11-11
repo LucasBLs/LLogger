@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 using MongoDB.Bson;
 using MongoDB.Driver;
@@ -33,7 +34,20 @@ namespace Lemos.Logger
 
                 var existCollection = await database.ListCollectionNamesAsync(options);
                 if (!existCollection.Any())
+                {
                     await database.CreateCollectionAsync(CollectionName);
+            
+                    var collection = database.GetCollection<LLogger>(CollectionName);
+                    var indexLLogger = Builders<LLogger>.IndexKeys
+                        .Ascending(i => i.ProjectName)
+                        .Ascending(i => i.Date)
+                        .Ascending(i => i.Logs[0].LogName)
+                        .Ascending(i => i.Logs[0].Environment)
+                        .Ascending(i => i.Logs[0].Success)
+                        .Ascending(i => i.Logs[0].CreatedAt);
+
+                    await collection.Indexes.CreateOneAsync(new CreateIndexModel<LLogger>(indexLLogger));
+                }
             }
             catch (Exception)
             {
