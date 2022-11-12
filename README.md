@@ -26,7 +26,7 @@ Install-Package LemosLogger
 dotnet add package LemosLogger
 ```
 
-```
+```csharp
 #region  ConfigureDatabase
 await LLConnection.ConfigureDatabaseAsync("mongodb://localhost:27017", "Sample");
 #endregion
