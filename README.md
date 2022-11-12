@@ -26,7 +26,7 @@ Install-Package LemosLogger
 dotnet add package LemosLogger
 ```
 
-```
+```csharp
 #region  ConfigureDatabase
 await LLConnection.ConfigureDatabaseAsync("mongodb://localhost:27017", "Sample");
 #endregion
@@ -59,4 +59,57 @@ finally
 #region SearchLogs
 var logs = await LLogger.SearchLogsAsync(DateTime.Now.AddHours(-20), DateTime.Now, projectName: "LLoger");
 #endregion
+```
+
+## Log result
+```json
+[
+  {
+    "Id": "e1ef00a3-dcef-46cc-a35f-79b08caa588c",
+    "ProjectName": "LLogger",
+    "Date": "2022-10-25T20:29:30.669Z",
+    "Logs": [
+      {
+        "LogName": "Test",
+        "Environment": "Dev",
+        "UniqueId": "d80f98c6-e126-46da-85b9-9273ce92a098",
+        "Description": "Write in console text",
+        "CreatedAt": "2022-10-25T20:29:30.671Z",
+        "Success": true,
+        "LogsContent": [
+          {
+            "Message": "Writing text",
+            "Content": "Hello, World!",
+            "CreatedAt": "2022-10-25T20:29:30.671Z"
+          },
+          {
+            "Message": "Writing text2",
+            "Content": "Hello, World!",
+            "CreatedAt": "2022-10-25T20:29:30.671Z"
+          }
+        ]
+      },
+      {
+        "LogName": "Test2",
+        "Environment": "Dev",
+        "UniqueId": "d80f98c6-e126-46da-85b9-927231392a098",
+        "Description": "Write in console text",
+        "CreatedAt": "2022-10-25T20:29:30.671Z",
+        "Success": true,
+        "LogsContent": [
+          {
+            "Message": "Writing text",
+            "Content": "Hello, World!",
+            "CreatedAt": "2022-10-25T20:29:30.671Z"
+          },
+          {
+            "Message": "Writing text2",
+            "Content": "Hello, World!",
+            "CreatedAt": "2022-10-25T20:29:30.671Z"
+          }
+        ]
+      }
+    ]
+  }
+]
 ```
