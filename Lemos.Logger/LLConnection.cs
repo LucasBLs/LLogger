@@ -24,13 +24,13 @@ namespace Lemos.Logger
         {
             try
             {
-                var objectDiscriminatorConvention = BsonSerializer.LookupDiscriminatorConvention(typeof(object));
-                var objectSerializer = new ObjectSerializer(objectDiscriminatorConvention, GuidRepresentation.CSharpLegacy);
-                BsonSerializer.RegisterSerializer(objectSerializer);
-
                 if (string.IsNullOrEmpty(connectionString) || string.IsNullOrEmpty(collectionName))
                     throw new ArgumentNullException("Invalid parameters for creating the database.");
 
+                var objectDiscriminatorConvention = BsonSerializer.LookupDiscriminatorConvention(typeof(object));
+                var objectSerializer = new ObjectSerializer(objectDiscriminatorConvention, GuidRepresentation.CSharpLegacy);
+                BsonSerializer.RegisterSerializer(objectSerializer);
+                
                 ConnectionString = connectionString;
                 CollectionName = collectionName;
                 var database = new MongoClient(ConnectionString).GetDatabase(DataBaseName);
