@@ -24,12 +24,12 @@ namespace Lemos.Logger
         {
             try
             {
+                if (string.IsNullOrEmpty(connectionString) || string.IsNullOrEmpty(collectionName))
+                    throw new ArgumentNullException("Invalid parameters for creating the database.");
+
                 var objectDiscriminatorConvention = BsonSerializer.LookupDiscriminatorConvention(typeof(object));
                 var objectSerializer = new ObjectSerializer(objectDiscriminatorConvention, GuidRepresentation.CSharpLegacy);
                 BsonSerializer.RegisterSerializer(objectSerializer);
-
-                if (string.IsNullOrEmpty(connectionString) || string.IsNullOrEmpty(collectionName))
-                    throw new ArgumentNullException("Invalid parameters for creating the database.");
 
                 ConnectionString = connectionString;
                 CollectionName = collectionName;
@@ -43,7 +43,7 @@ namespace Lemos.Logger
                 if (!existCollection.Any())
                 {
                     await database.CreateCollectionAsync(CollectionName);
-            
+
                     var collection = database.GetCollection<LLogger>(CollectionName);
                     var indexLLogger = Builders<LLogger>.IndexKeys
                         .Ascending(i => i.ProjectName)
@@ -65,7 +65,7 @@ namespace Lemos.Logger
         public async static Task<IMongoCollection<LLogger>> GetCollectionAsync()
         {
             try
-            { 
+            {
                 var database = new MongoClient(ConnectionString).GetDatabase(DataBaseName);
                 return await Task.FromResult(database.GetCollection<LLogger>(CollectionName));
             }

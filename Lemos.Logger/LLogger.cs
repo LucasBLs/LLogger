@@ -2,8 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using MongoDB.Bson.Serialization.Attributes;
 using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Attributes;
 using MongoDB.Driver;
 
 namespace Lemos.Logger
@@ -92,7 +92,7 @@ namespace Lemos.Logger
         public async static Task SaveLogsAsync(LLogger log)
         {
             try
-            {          
+            {
                 log.Id = Guid.NewGuid();
                 var collection = await LLConnection.GetCollectionAsync();
                 await collection.InsertOneAsync(log);
