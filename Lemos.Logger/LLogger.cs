@@ -57,7 +57,7 @@ namespace Lemos.Logger
         /// <para name="message">Atribuir uma mensagem para o log</para>
         /// <para name="content">Atribuir o conteúdo do log</para>
         /// </summary>  
-        public void LogContent(string message, object content)
+        public void LogContent(object content, string? message = null)
         {
             if (Logs.Any())
             {
