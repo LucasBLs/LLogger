@@ -27,9 +27,9 @@ namespace Lemos.Logger
                 if (string.IsNullOrEmpty(connectionString) || string.IsNullOrEmpty(collectionName))
                     throw new ArgumentNullException("Invalid parameters for creating the database.");
 
-                var objectDiscriminatorConvention = BsonSerializer.LookupDiscriminatorConvention(typeof(object));
-                var objectSerializer = new ObjectSerializer(objectDiscriminatorConvention, GuidRepresentation.CSharpLegacy);
-                BsonSerializer.RegisterSerializer(objectSerializer);
+                // var objectDiscriminatorConvention = BsonSerializer.LookupDiscriminatorConvention(typeof(object));
+                // var objectSerializer = new ObjectSerializer(objectDiscriminatorConvention, GuidRepresentation.CSharpLegacy);
+                // BsonSerializer.RegisterSerializer(objectSerializer);
 
                 ConnectionString = connectionString;
                 CollectionName = collectionName;

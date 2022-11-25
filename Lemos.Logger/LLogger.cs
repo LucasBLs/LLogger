@@ -21,8 +21,8 @@ namespace Lemos.Logger
             ProjectName = projectName;
         }
 
-        [BsonGuidRepresentation(GuidRepresentation.Standard)]
-        public Guid Id { get; set; } = default!;
+        [BsonId]
+        public string? Id { get; set; } = default!;
         public string? ProjectName { get; set; } = default!;
         public DateTime? Date { get; set; } = DateTime.Now;
         public List<Log> Logs { get; set; } = new List<Log>();
@@ -93,7 +93,7 @@ namespace Lemos.Logger
         {
             try
             {
-                log.Id = Guid.NewGuid();
+                log.Id = ObjectId.GenerateNewId().ToString();
                 var collection = await LLConnection.GetCollectionAsync();
                 await collection.InsertOneAsync(log);
             }
