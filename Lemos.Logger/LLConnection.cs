@@ -2,6 +2,8 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using MongoDB.Bson;
+using MongoDB.Bson.Serialization;
+using MongoDB.Bson.Serialization.Serializers;
 using MongoDB.Driver;
 
 namespace Lemos.Logger
@@ -17,10 +19,15 @@ namespace Lemos.Logger
         /// <param name="connectionString">ConnectioString to database MongoDB</param>    
         /// <param name="collectionName">Name to create collection</param>
         /// </summary>     
+
         public async static Task ConfigureDatabaseAsync(string connectionString, string collectionName)
         {
             try
             {
+                var objectDiscriminatorConvention = BsonSerializer.LookupDiscriminatorConvention(typeof(object));
+                var objectSerializer = new ObjectSerializer(objectDiscriminatorConvention, GuidRepresentation.CSharpLegacy);
+                BsonSerializer.RegisterSerializer(objectSerializer);
+
                 if (string.IsNullOrEmpty(connectionString) || string.IsNullOrEmpty(collectionName))
                     throw new ArgumentNullException("Invalid parameters for creating the database.");
 
@@ -58,7 +65,7 @@ namespace Lemos.Logger
         public async static Task<IMongoCollection<LLogger>> GetCollectionAsync()
         {
             try
-            {
+            { 
                 var database = new MongoClient(ConnectionString).GetDatabase(DataBaseName);
                 return await Task.FromResult(database.GetCollection<LLogger>(CollectionName));
             }
