@@ -2,10 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using MongoDB.Bson;
-using MongoDB.Bson.Serialization;
 using MongoDB.Bson.Serialization.Attributes;
-using MongoDB.Bson.Serialization.Serializers;
+using MongoDB.Bson;
 using MongoDB.Driver;
 
 namespace Lemos.Logger
@@ -23,8 +21,8 @@ namespace Lemos.Logger
             ProjectName = projectName;
         }
 
-        [BsonId]
-        public Guid? Id { get; set; } = default!;
+        [BsonGuidRepresentation(GuidRepresentation.Standard)]
+        public Guid Id { get; set; } = default!;
         public string? ProjectName { get; set; } = default!;
         public DateTime? Date { get; set; } = DateTime.Now;
         public List<Log> Logs { get; set; } = new List<Log>();
@@ -94,8 +92,7 @@ namespace Lemos.Logger
         public async static Task SaveLogsAsync(LLogger log)
         {
             try
-            {
-                BsonSerializer.RegisterSerializer(new GuidSerializer(GuidRepresentation.Standard));
+            {          
                 log.Id = Guid.NewGuid();
                 var collection = await LLConnection.GetCollectionAsync();
                 await collection.InsertOneAsync(log);
