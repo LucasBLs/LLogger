@@ -106,10 +106,13 @@ namespace Lemos.Logger
         /// <summary>
         /// Consultar log no banco
         /// </summary>  
-        public async static Task<List<LLogger>> SearchLogsAsync(DateTime startDate, DateTime endDate, int skip = 0, int take = 25, string? projectName = null, string? logName = null, string? uniqueId = null, string? message = null, bool? success = null)
+        public async static Task<List<LLogger>> SearchLogsAsync(DateTime? startDate, DateTime? endDate, int skip = 0, int take = 25, string? projectName = null, string? logName = null, string? uniqueId = null, bool? success = null)
         {
             try
             {
+                startDate ??= DateTime.Now.AddHours(-2);
+                endDate ??= DateTime.Now;
+
                 var collection = await LLConnection.GetCollectionAsync();
                 var query = collection.AsQueryable().Where(x => x.Date >= startDate && x.Date <= endDate);
 
@@ -124,9 +127,6 @@ namespace Lemos.Logger
 
                 if (!string.IsNullOrEmpty(uniqueId))
                     query = query.Where(x => x.Logs.Any(i => i.UniqueId == uniqueId));
-
-                if (!string.IsNullOrEmpty(uniqueId))
-                    query = query.Where(x => x.Logs.Any(i => i.LogsContent.Any(c => c.Message == message)));
 
                 return query.Skip(skip).Take(take).OrderByDescending(x => x.Date).ToList();
             }
