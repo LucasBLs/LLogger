@@ -106,15 +106,24 @@ namespace Lemos.Logger
         /// <summary>
         /// Consultar log no banco
         /// </summary>  
-        public async static Task<List<LLogger>> SearchLogsAsync(DateTime startDate, DateTime endDate, int skip = 0, int take = 25, string? projectName = null, string? logName = null, string? uniqueId = null, string? message = null, bool? success = null)
+        public async static Task<List<LLogger>> SearchLogsAsync(DateTime? startDate, DateTime? endDate, string? projectId = null, string? logId = null, string? contentId = null, int skip = 0, int take = 25, string? projectName = null, string? logName = null, string? uniqueId = null, bool? success = null)
         {
             try
             {
+                startDate ??= DateTime.Now.AddHours(-2);
+                endDate ??= DateTime.Now;
+
                 var collection = await LLConnection.GetCollectionAsync();
                 var query = collection.AsQueryable().Where(x => x.Date >= startDate && x.Date <= endDate);
 
+                if (!string.IsNullOrEmpty(projectId))
+                    query = query.Where(x => x.Id == projectId);  
+
                 if (!string.IsNullOrEmpty(projectName))
                     query = query.Where(x => x.ProjectName == projectName);
+
+                if (!string.IsNullOrEmpty(logId))
+                    query = query.Where(x => x.Logs.Any(i => i.Id == logId));
 
                 if (!string.IsNullOrEmpty(logName))
                     query = query.Where(x => x.Logs.Any(i => i.LogName == logName));
@@ -125,8 +134,8 @@ namespace Lemos.Logger
                 if (!string.IsNullOrEmpty(uniqueId))
                     query = query.Where(x => x.Logs.Any(i => i.UniqueId == uniqueId));
 
-                if (!string.IsNullOrEmpty(uniqueId))
-                    query = query.Where(x => x.Logs.Any(i => i.LogsContent.Any(c => c.Message == message)));
+                if (!string.IsNullOrEmpty(contentId))
+                    query = query.Where(x => x.Logs.Any(i => i.LogsContent.Any(c => c.Id == contentId)));
 
                 return query.Skip(skip).Take(take).OrderByDescending(x => x.Date).ToList();
             }
@@ -139,6 +148,8 @@ namespace Lemos.Logger
 
     public class Log
     {
+        [BsonId]
+        public string? Id { get; set; } = ObjectId.GenerateNewId().ToString();
         public string? LogName { get; set; } = default!;
         public string? Environment { get; set; } = default!;
         public string? UniqueId { get; set; } = default!;
@@ -157,6 +168,8 @@ namespace Lemos.Logger
             CreatedAt = DateTime.Now;
         }
 
+        [BsonId]
+        public string? Id { get; set; } = ObjectId.GenerateNewId().ToString();
         public string? Message { get; set; } = default!;
         public object? Content { get; set; } = default!;
         public DateTime? CreatedAt { get; set; } = default!;
