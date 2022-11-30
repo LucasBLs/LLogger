@@ -2,8 +2,6 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using MongoDB.Bson;
-using MongoDB.Bson.Serialization;
-using MongoDB.Bson.Serialization.Serializers;
 using MongoDB.Driver;
 
 namespace Lemos.Logger
@@ -26,10 +24,6 @@ namespace Lemos.Logger
             {
                 if (string.IsNullOrEmpty(connectionString) || string.IsNullOrEmpty(collectionName))
                     throw new ArgumentNullException("Invalid parameters for creating the database.");
-
-                // var objectDiscriminatorConvention = BsonSerializer.LookupDiscriminatorConvention(typeof(object));
-                // var objectSerializer = new ObjectSerializer(objectDiscriminatorConvention, GuidRepresentation.CSharpLegacy);
-                // BsonSerializer.RegisterSerializer(objectSerializer);
 
                 ConnectionString = connectionString;
                 CollectionName = collectionName;
