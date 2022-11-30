@@ -1,46 +1,52 @@
 [
   {
-    "Id": "e1ef00a3-dcef-46cc-a35f-79b08caa588c",
-    "ProjectName": "LLogger",
-    "Date": "2022-10-25T20:29:30.669Z",
+    "Id": "638792c9865864d260ae9ae8",
+    "ProjectName": "LLoger",
+    "Date": "2022-11-30T17:28:41.297Z",
     "Logs": [
       {
+        "Id": "638792c9865864d260ae9ae2",
         "LogName": "Test",
         "Environment": "Dev",
         "UniqueId": "d80f98c6-e126-46da-85b9-9273ce92a098",
         "Description": "Write in console text",
-        "CreatedAt": "2022-10-25T20:29:30.671Z",
+        "CreatedAt": "2022-11-30T17:28:41.304Z",
         "Success": true,
         "LogsContent": [
           {
-            "Message": "Writing text",
-            "Content": "Hello, World!",
-            "CreatedAt": "2022-10-25T20:29:30.671Z"
+            "Id": "638792c9865864d260ae9ae3",
+            "Message": "Hello, World!",
+            "Content": "Writing text",
+            "CreatedAt": "2022-11-30T17:28:41.304Z"
           },
           {
-            "Message": "Writing text2",
-            "Content": "Hello, World!",
-            "CreatedAt": "2022-10-25T20:29:30.671Z"
+            "Id": "638792c9865864d260ae9ae4",
+            "Message": "Hello, World!",
+            "Content": "Writing text",
+            "CreatedAt": "2022-11-30T17:28:41.304Z"
           }
         ]
       },
       {
+        "Id": "638792c9865864d260ae9ae5",
         "LogName": "Test2",
         "Environment": "Dev",
-        "UniqueId": "d80f98c6-e126-46da-85b9-927231392a098",
-        "Description": "Write in console text",
-        "CreatedAt": "2022-10-25T20:29:30.671Z",
+        "UniqueId": "d80f97c6-e126-46da-85b9-927231392a098",
+        "Description": "Write in console text2",
+        "CreatedAt": "2022-11-30T17:28:41.304Z",
         "Success": true,
         "LogsContent": [
           {
-            "Message": "Writing text",
-            "Content": "Hello, World!",
-            "CreatedAt": "2022-10-25T20:29:30.671Z"
+            "Id": "638792c9865864d260ae9ae6",
+            "Message": "Hello, World2!",
+            "Content": "Writing text2",
+            "CreatedAt": "2022-11-30T17:28:41.304Z"
           },
           {
-            "Message": "Writing text2",
-            "Content": "Hello, World!",
-            "CreatedAt": "2022-10-25T20:29:30.671Z"
+            "Id": "638792c9865864d260ae9ae7",
+            "Message": "Hello, World2!",
+            "Content": "Writing text2",
+            "CreatedAt": "2022-11-30T17:28:41.304Z"
           }
         ]
       }

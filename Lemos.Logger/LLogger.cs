@@ -139,6 +139,8 @@ namespace Lemos.Logger
 
     public class Log
     {
+        [BsonId]
+        public string? Id { get; set; } = ObjectId.GenerateNewId().ToString();
         public string? LogName { get; set; } = default!;
         public string? Environment { get; set; } = default!;
         public string? UniqueId { get; set; } = default!;
@@ -157,6 +159,8 @@ namespace Lemos.Logger
             CreatedAt = DateTime.Now;
         }
 
+        [BsonId]
+        public string? Id { get; set; } = ObjectId.GenerateNewId().ToString();
         public string? Message { get; set; } = default!;
         public object? Content { get; set; } = default!;
         public DateTime? CreatedAt { get; set; } = default!;
