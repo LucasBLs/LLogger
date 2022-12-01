@@ -24,6 +24,7 @@ namespace Lemos.Logger
         [BsonId]
         public string? Id { get; set; } = default!;
         public string? ProjectName { get; set; } = default!;
+        [BsonDateTimeOptions(Kind = DateTimeKind.Local)]
         public DateTime? Date { get; set; } = DateTime.Now;
         public List<Log> Logs { get; set; } = new List<Log>();
 
@@ -154,6 +155,7 @@ namespace Lemos.Logger
         public string? Environment { get; set; } = default!;
         public string? UniqueId { get; set; } = default!;
         public string? Description { get; set; } = default!;
+        [BsonDateTimeOptions(Kind = DateTimeKind.Local)]
         public DateTime? CreatedAt { get; set; } = DateTime.Now;
         public bool Success { get; set; } = default!;
         public List<LogContent>? LogsContent { get; set; } = new List<LogContent>();
@@ -172,6 +174,7 @@ namespace Lemos.Logger
         public string? Id { get; set; } = ObjectId.GenerateNewId().ToString();
         public string? Message { get; set; } = default!;
         public object? Content { get; set; } = default!;
+        [BsonDateTimeOptions(Kind = DateTimeKind.Local)]
         public DateTime? CreatedAt { get; set; } = default!;
     }
 }
