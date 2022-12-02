@@ -111,9 +111,6 @@ namespace Lemos.Logger
         {
             try
             {
-                startDate ??= DateTime.Now.AddHours(-2);
-                endDate ??= DateTime.Now;
-
                 var collection = await LLConnection.GetCollectionAsync();
                 var query = collection.AsQueryable().Where(x => x.Date >= startDate && x.Date <= endDate);
 
